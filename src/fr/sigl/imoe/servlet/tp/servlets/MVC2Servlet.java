@@ -63,19 +63,37 @@ public class MVC2Servlet extends HttpServlet {
 		{
 			getServletContext().getRequestDispatcher("/accueil.jsp").forward(request, response);
 		}
-		else if (urlEnd.contains("/add"))
+		else if (urlEnd.equals("/add"))
 		{
 			try 
 			{
 				TypeEvenementDAO typeEvtDAO = HibernateDAOFactory.getDAOFactory().getTypeEvenementDAO();
 				request.setAttribute("types", typeEvtDAO.getTypesEvenements());
+				getServletContext().getRequestDispatcher("/add.jsp").forward(request, response);
 			} 
 			catch (Exception e) 
 			{
 				e.printStackTrace();
+				response.sendRedirect(getServletContext().getContextPath() + "/listing");
+			}			
+		}
+		else if (urlEnd.contains("/edit"))
+		{
+			String id = request.getParameter("id");
+
+			try 
+			{
+				EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
+				request.setAttribute("event", evtDAO.getEvenement(id));
+				TypeEvenementDAO typeEvtDAO = HibernateDAOFactory.getDAOFactory().getTypeEvenementDAO();
+				request.setAttribute("types", typeEvtDAO.getTypesEvenements());
+				getServletContext().getRequestDispatcher("/edit.jsp").forward(request, response);	
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				response.sendRedirect(getServletContext().getContextPath() + "/listing");
 			}
-			
-			getServletContext().getRequestDispatcher("/add.jsp").forward(request, response);			
 		}
 		else if (urlEnd.contains("/delete"))
 		{
@@ -115,7 +133,7 @@ public class MVC2Servlet extends HttpServlet {
 	{
 		String urlEnd = request.getRequestURI().substring(request.getContextPath().length());
 
-		if (urlEnd.contains("/add"))
+		if (urlEnd.equals("/add"))
 		{
 			try 
 			{
@@ -184,6 +202,10 @@ public class MVC2Servlet extends HttpServlet {
 					{
 						request.setAttribute("typeError", "Le type ne peut pas être vide");
 					}
+					else
+					{
+						request.setAttribute("type", type);
+					}
 					
 					// Début
 					if (beginError)
@@ -230,9 +252,135 @@ public class MVC2Servlet extends HttpServlet {
 			catch (Exception e) 
 			{
 				e.printStackTrace();
+				response.sendRedirect(getServletContext().getContextPath() + "/listing");
 			}
+		}
+		else if (urlEnd.contains("/edit"))
+		{
+			try 
+			{
+				// Errors
+				boolean titleError = false;
+				boolean typeError = false;
+				boolean beginError = false;
+				boolean endError = false;
+				
+				// Evénement id
+				String eventId = request.getParameter("eventId");
+				
+				// Titre
+				String title = request.getParameter("title");
+				titleError = title.isEmpty();
+	
+				// Type
+				String type = request.getParameter("type");
+				typeError = type.isEmpty();
+				TypeEvenementDAO typeEvtDAO = HibernateDAOFactory.getDAOFactory().getTypeEvenementDAO();
+				TypeEvenement typeEvt = typeEvtDAO.getTypeEvenement(type);
+				typeError = (typeEvt == null);
+				
+				// Début
+				String begin = null;
+				Timestamp beginTimestamp = null;
+				try
+				{
+					begin = request.getParameter("begin");
+					beginTimestamp = Timestamp.valueOf(begin);	
+				}
+				catch (Exception e) 
+				{
+					beginError = true;
+				}
+				
+				// Fin
+				String end = null;
+				Timestamp endTimestamp = null;
+				try
+				{
+					end = request.getParameter("end");
+					endTimestamp = Timestamp.valueOf(end);
+				}
+				catch (Exception e) 
+				{
+					endError = true;
+				}		
+				
+				// Description
+				String description = request.getParameter("description");
+				
+				if (titleError || typeError || beginError || endError)
+				{
+					EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
+					request.setAttribute("event", evtDAO.getEvenement(eventId));
+					
+					request.setAttribute("types", typeEvtDAO.getTypesEvenements());
+					
+					// titre
+					if (titleError)
+					{
+						request.setAttribute("titleError", "Le titre ne peut pas être vide.");
+					}
+					else
+					{
+						request.setAttribute("title", title);
+					}
+					
+					// type
+					if (typeError)
+					{
+						request.setAttribute("typeError", "Le type ne peut pas être vide");
+					}
+					else
+					{
+						request.setAttribute("type", type);
+					}
+					
+					// Début
+					if (beginError)
+					{
+						request.setAttribute("beginError", "La date doit être au format : 'AAAA-MM-DD hh:mm:ss'.");
+					}
+					else
+					{
+						request.setAttribute("begin", begin);
+					}
+					
+					// Fin
+					if (endError)
+					{
+						request.setAttribute("endError", "La date doit être au format : 'AAAA-MM-DD hh:mm:ss'.");
+					}
+					else
+					{
+						request.setAttribute("end", end);
+					}
+					
+					// Description
+					request.setAttribute("description", description);
+					
+					getServletContext().getRequestDispatcher("/edit.jsp").forward(request, response);
+				}
+				else
+				{
+					// Modifier événement
+					EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
+					Evenement evt = evtDAO.getEvenement(eventId);
+					
+					evt.setTitre(title);
+					evt.setType(typeEvt);
+					evt.setDateDebut(endTimestamp);
+					evt.setDateFin(beginTimestamp);
+					evt.setDescription(description);
+					
+					evtDAO.updateEvenement(evt);
 
-
+					response.sendRedirect(getServletContext().getContextPath() + "/listing");
+				}
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
 		}			
 	}
 }

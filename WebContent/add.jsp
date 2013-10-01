@@ -4,6 +4,7 @@
 <form method="post" action="<%=application.getContextPath()%>/add">
 	
 	<table>
+		<!-- TITRE -->
 		<tr>
 			<td><b>Titre :</b></td>
 			<td><input type="text" name="title" value="<c:if test="${!empty title}">${title}</c:if>"></td>
@@ -13,11 +14,13 @@
 				<td colspan="2" style="padding-left: 30px; color: red; font-weigth: bold;">${titleError}</td>
 			</tr>
 		</c:if>
+		
+		<!-- TYPE -->
 		<tr>
 			<td><b>Type :</b></td>
-			<td> <select name="type">
-		 			<c:forEach var="type" items="${types}">
-		    			<option value="${type.id}">${type.libelle}</option>
+			<td> <select name="type">					
+		 			<c:forEach var="t" items="${types}">
+		    			<option value="${t.id}" <c:if test="${(!empty type) && (type == t.id)}">selected</c:if>>${t.libelle}</option>
 		    		</c:forEach>
 		 		</select>
 		 	</td>
@@ -27,6 +30,8 @@
 				<td colspan="2" style="padding-left: 30px; color: red; font-weigth: bold;">${typeError}</td>
 			</tr>
 		</c:if>
+		
+		<!-- DATE DEBUT -->
 		<tr>
 			<td><b>Date début :</b></td>
 			<td><input type="datetime" name="begin" value="<c:if test="${!empty begin}">${begin}</c:if>"></td>
@@ -36,6 +41,8 @@
 				<td colspan="2" style="padding-left: 30px; color: red; font-weigth: bold;">${beginError}</td>
 			</tr>
 		</c:if>
+		
+		<!-- DATE FIN -->
 		<tr>
 			<td><b>Date fin :</b></td>
 			<td><input type="datetime" name="end" value="<c:if test="${!empty end}">${end}</c:if>"></td>
@@ -45,9 +52,11 @@
 				<td colspan="2" style="padding-left: 30px; color: red; font-weigth: bold;">${endError}</td>
 			</tr>
 		</c:if>
+		
+		<!-- DESCRIPTION -->
 		<tr>
 			<td><b>Description :</b></td>
-			<td><input type="text" name="description"></td>
+			<td><input type="text" name="description" value="<c:if test="${!empty description}">${description}</c:if>"></td>
 		</tr>
 	</table>
 	 
