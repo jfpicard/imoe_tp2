@@ -1,0 +1,5 @@
+************** TODO **************
+
+¤ Bug : images non affichées
+¤ Bug : CSS non pris en compte
+¤ Extraitre les traitements de MVC2Servlet
