@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.sigl.imoe.servlet.tp.bo">
+	<class name="TypeEvenement" table="TYPEEVENEMENT" lazy="false">
+		<comment>Mapping des types d'événements</comment>
+
+		<!-- Identifiant -->
+		<id name="id" column="ID">
+			<generator class="assigned"/>
+		</id>
+
+		<!-- Proprietes -->
+		<property name="libelle" column="LABEL"/>
+	</class>
+
+	<query name="typeEvenement.list"><![CDATA[
+	    from TypeEvenement as type
+	    order by libelle
+	]]></query>
+</hibernate-mapping>

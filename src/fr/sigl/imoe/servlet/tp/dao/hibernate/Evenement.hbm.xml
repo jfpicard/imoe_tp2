@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.sigl.imoe.servlet.tp.bo">
+	<class name="Evenement" table="EVENT" lazy="false">
+		<comment>Mapping des événements</comment>
+
+		<!-- Identifiant -->
+		<id name="id" column="ID">
+			<generator class="assigned"/>
+		</id>
+
+		<!-- Relation -->
+		<many-to-one name="type"
+					 column="TYPE"
+					 class="TypeEvenement"
+					 cascade="none" fetch="join" lazy="false" />
+
+		<!-- Proprietes -->
+		<property name="titre" column="TITLE"/>
+		<property name="dateDebut" column="START_DATE" type="timestamp"/>
+		<property name="dateFin" column="END_DATE" type="timestamp"/>
+		<property name="description" column="DESCRIPTION"/>
+	</class>
+
+	<query name="evenements.list"><![CDATA[
+	    from Evenement as evt
+	    order by dateDebut desc
+	]]></query>
+</hibernate-mapping>
