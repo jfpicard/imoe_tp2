@@ -41,7 +41,7 @@
 					<!-- Menu -->
 					<td width="150">
 						<img src="<%=application.getContextPath()%>/img/menudivider.jpg" width="150" height="6" border="0" alt=""><BR>
-						&nbsp; <a href="index.jsp">Home</a><BR>
+						&nbsp; <a href="<%=application.getContextPath()%>/index.jsp">Home</a><BR>
 						<img src="<%=application.getContextPath()%>/img/menudivider.jpg" width="150" height="6" border="0" alt=""><BR>
 					</td>
 					<!-- Colonne vide d'ajustement -->
