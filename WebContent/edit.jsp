@@ -1,7 +1,7 @@
 <%@include file="includes/header.jsp" %>
 
 <center>
-<form method="post" action="<%=application.getContextPath()%>/edit">
+<form method="post" action="<%=application.getContextPath()%>/mvc2/edit">
 	
 	<!-- EVENEMENT ID - HIDDEN -->
 	<input type="hidden" name="eventId" value="${event.id}">
@@ -68,7 +68,7 @@
 </form>
 <hr/>
 
-<a href="<%=application.getContextPath()%>/listing">Retour à la page principale</a>
+<a href="<%=application.getContextPath()%>/mvc2">Retour à la page principale</a>
 
 </center>
 

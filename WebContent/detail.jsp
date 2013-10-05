@@ -25,7 +25,7 @@
 	</table>
 <hr/>
 
-<a href="<%=application.getContextPath()%>/listing">Retour à la page principale</a>
+<a href="<%=application.getContextPath()%>/mvc2">Retour à la page principale</a>
 </center>
 
 <%@include file="includes/footer.jsp" %>

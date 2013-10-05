@@ -1,7 +1,7 @@
 <%@include file="includes/header.jsp" %>
 
 <center>
-<form method="post" action="<%=application.getContextPath()%>/add">
+<form method="post" action="<%=application.getContextPath()%>/mvc2/add">
 	
 	<table>
 		<!-- TITRE -->
@@ -65,7 +65,7 @@
 </form>
 <hr/>
 
-<a href="<%=application.getContextPath()%>/listing">Retour à la page principale</a>
+<a href="<%=application.getContextPath()%>/mvc2">Retour à la page principale</a>
 
 </center>
 

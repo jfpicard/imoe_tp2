@@ -22,7 +22,7 @@ import fr.sigl.imoe.servlet.tp.dao.hibernate.HibernateDAOFactory;
  */
 @WebServlet(
 		name = "MCV2Servlet",
-		urlPatterns = {"/"}
+		urlPatterns = {"/mvc2/*"}
 		)
 public class MVC2Servlet extends HttpServlet {
 	/**
@@ -59,11 +59,11 @@ public class MVC2Servlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		if (urlEnd.equals("/listing")) 
+		if (urlEnd.equals("/mvc2")) 
 		{
 			getServletContext().getRequestDispatcher("/accueil.jsp").forward(request, response);
 		}
-		else if (urlEnd.equals("/add"))
+		else if (urlEnd.equals("/mvc2/add"))
 		{
 			try 
 			{
@@ -74,10 +74,10 @@ public class MVC2Servlet extends HttpServlet {
 			catch (Exception e) 
 			{
 				e.printStackTrace();
-				response.sendRedirect(getServletContext().getContextPath() + "/listing");
+				response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 			}			
 		}
-		else if (urlEnd.contains("/edit"))
+		else if (urlEnd.contains("/mvc2/edit"))
 		{
 			String id = request.getParameter("id");
 
@@ -92,10 +92,10 @@ public class MVC2Servlet extends HttpServlet {
 			catch (Exception e) 
 			{
 				e.printStackTrace();
-				response.sendRedirect(getServletContext().getContextPath() + "/listing");
+				response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 			}
 		}
-		else if (urlEnd.contains("/delete"))
+		else if (urlEnd.contains("/mvc2/delete"))
 		{
 			String id = request.getParameter("id");
 
@@ -109,9 +109,9 @@ public class MVC2Servlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			response.sendRedirect(getServletContext().getContextPath() + "/listing");
+			response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 		}
-		else if (urlEnd.contains("/detail"))
+		else if (urlEnd.contains("/mvc2/detail"))
 		{
 			String id = request.getParameter("id");
 
@@ -124,7 +124,7 @@ public class MVC2Servlet extends HttpServlet {
 			catch (Exception e) 
 			{
 				e.printStackTrace();
-				response.sendRedirect(getServletContext().getContextPath() + "/listing");
+				response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 			}
 		}
 	}
@@ -133,7 +133,7 @@ public class MVC2Servlet extends HttpServlet {
 	{
 		String urlEnd = request.getRequestURI().substring(request.getContextPath().length());
 
-		if (urlEnd.equals("/add"))
+		if (urlEnd.equals("/mvc2/add"))
 		{
 			try 
 			{
@@ -246,16 +246,16 @@ public class MVC2Servlet extends HttpServlet {
 					EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
 					evtDAO.insertEvenement(evt);
 					
-					response.sendRedirect(getServletContext().getContextPath() + "/listing");
+					response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 				}
 			} 
 			catch (Exception e) 
 			{
 				e.printStackTrace();
-				response.sendRedirect(getServletContext().getContextPath() + "/listing");
+				response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 			}
 		}
-		else if (urlEnd.contains("/edit"))
+		else if (urlEnd.contains("/mvc2/edit"))
 		{
 			try 
 			{
@@ -374,7 +374,7 @@ public class MVC2Servlet extends HttpServlet {
 					
 					evtDAO.updateEvenement(evt);
 
-					response.sendRedirect(getServletContext().getContextPath() + "/listing");
+					response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 				}
 			} 
 			catch (Exception e) 

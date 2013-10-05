@@ -15,9 +15,9 @@
 			<td>fmt:formatDate sur ${evt.dateDebut}</td>
 			<td>fmt:formatDate sur ${evt.dateFin}</td>
 			<td>
-				<a href="<%=application.getContextPath()%>/listing/detail?id=${evt.id}">Détail</a><br/>
-				<a href="<%=application.getContextPath()%>/listing/edit?id=${evt.id}">Editer</a><br/>
-				<a href="<%=application.getContextPath()%>/listing/delete?id=${evt.id}">Supprimer</a>
+				<a href="<%=application.getContextPath()%>/mvc2/detail?id=${evt.id}">Détail</a><br/>
+				<a href="<%=application.getContextPath()%>/mvc2/edit?id=${evt.id}">Editer</a><br/>
+				<a href="<%=application.getContextPath()%>/mvc2/delete?id=${evt.id}">Supprimer</a>
 			</td>
 		</tr>
       </c:forEach>
@@ -25,7 +25,7 @@
 </table>
 <hr/>
 
-<a href="<%=application.getContextPath()%>/add">Ajouter un nouvel événement</a>
+<a href="<%=application.getContextPath()%>/mvc2/add">Ajouter un nouvel événement</a>
 
 </center>
 
