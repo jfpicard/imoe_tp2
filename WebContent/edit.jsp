@@ -14,7 +14,7 @@
 		</tr>
 		<c:if test="${!empty titleError}">
 			<tr>
-				<td colspan="2" style="padding-left: 30px; color: red; font-weigth: bold;">${titleError}</td>
+				<td colspan="2" class="error">${titleError}</td>
 			</tr>
 		</c:if>
 		
@@ -30,7 +30,7 @@
 		</tr>
 		<c:if test="${!empty typeError}">
 			<tr>
-				<td colspan="2" style="padding-left: 30px; color: red; font-weigth: bold;">${typeError}</td>
+				<td colspan="2" class="error">${typeError}</td>
 			</tr>
 		</c:if>
 		
@@ -41,7 +41,7 @@
 		</tr>
 		<c:if test="${!empty beginError}">
 			<tr>
-				<td colspan="2" style="padding-left: 30px; color: red; font-weigth: bold;">${beginError}</td>
+				<td colspan="2" class="error">${beginError}</td>
 			</tr>
 		</c:if>
 		
@@ -52,7 +52,7 @@
 		</tr>
 		<c:if test="${!empty endError}">
 			<tr>
-				<td colspan="2" style="padding-left: 30px; color: red; font-weigth: bold;">${endError}</td>
+				<td colspan="2" class="error">${endError}</td>
 			</tr>
 		</c:if>
 		
