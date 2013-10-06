@@ -17,8 +17,7 @@ import fr.sigl.imoe.servlet.tp.dao.TypeEvenementDAO;
 import fr.sigl.imoe.servlet.tp.dao.hibernate.HibernateDAOFactory;
 
 /**
- * Servlet permettant d'initialiser la liste des �v�nements
- * existant dans la base de donn�es.
+ * Servlet MVC2
  */
 @WebServlet(
 		name = "MCV2Servlet",
@@ -36,33 +35,37 @@ public class MVC2Servlet extends HttpServlet {
 	public static final Logger LOGGER = Logger.getLogger(MVC2Servlet.class.getName());
 
 	/**
-	 * Surcharge de la m�thode service qui effectue les traitements ind�pendamment du type de requ�te.
+	 * Surcharge de la m�thode doGet qui effectue les traitements pour le type de requ�te GET.
 	 *
 	 * @param request               La requ�te HTTP.
 	 * @param response              La r�ponse HTTP.
 	 * @throws ServletException     Exception g�n�rique pour le traitement de la servlet.
 	 * @throws IOException          Exception g�n�rique d'entr�e / sortie.
-	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		String urlEnd = request.getRequestURI().substring(request.getContextPath().length());
 
-		// Alimentation de la request avec les informations trouv�es
-		try
-		{
-			EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
-			request.setAttribute("evts", evtDAO.getEvenements());
-		} 
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-
+		/**
+		 * Accueil
+		 */
 		if (urlEnd.equals("/mvc2")) 
 		{
+			try
+			{
+				EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
+				request.setAttribute("evts", evtDAO.getEvenements());
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+			
 			getServletContext().getRequestDispatcher("/accueil.jsp").forward(request, response);
 		}
+		/**
+		 * Ajouter un événement
+		 */
 		else if (urlEnd.equals("/mvc2/add"))
 		{
 			try 
@@ -77,6 +80,9 @@ public class MVC2Servlet extends HttpServlet {
 				response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 			}			
 		}
+		/**
+		 * Editer un événement
+		 */
 		else if (urlEnd.contains("/mvc2/edit"))
 		{
 			String id = request.getParameter("id");
@@ -95,14 +101,15 @@ public class MVC2Servlet extends HttpServlet {
 				response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 			}
 		}
+		/**
+		 * Supprimer un événement
+		 */
 		else if (urlEnd.contains("/mvc2/delete"))
 		{
-			String id = request.getParameter("id");
-
 			try 
 			{
 				EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
-				evtDAO.deleteEvenement(evtDAO.getEvenement(id));
+				evtDAO.deleteEvenement(evtDAO.getEvenement(request.getParameter("id")));
 			} 
 			catch (Exception e) 
 			{
@@ -111,14 +118,15 @@ public class MVC2Servlet extends HttpServlet {
 			
 			response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 		}
+		/**
+		 * Détail d'un événement
+		 */
 		else if (urlEnd.contains("/mvc2/detail"))
 		{
-			String id = request.getParameter("id");
-
 			try 
 			{
 				EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
-				request.setAttribute("event", evtDAO.getEvenement(id));
+				request.setAttribute("event", evtDAO.getEvenement(request.getParameter("id")));
 				getServletContext().getRequestDispatcher("/detail.jsp").forward(request, response);	
 			} 
 			catch (Exception e) 
@@ -127,12 +135,40 @@ public class MVC2Servlet extends HttpServlet {
 				response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 			}
 		}
+		/**
+		 * Rediriger vers l'accueil pour une URL non traitée par l'application
+		 */
+		else
+		{
+			try
+			{
+				EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
+				request.setAttribute("evts", evtDAO.getEvenements());
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+			
+			getServletContext().getRequestDispatcher("/accueil.jsp").forward(request, response);
+		}
 	}
 
+	/**
+	 * Surcharge de la m�thode doGet qui effectue les traitements pour le type de requ�te POST.
+	 *
+	 * @param request               La requ�te HTTP.
+	 * @param response              La r�ponse HTTP.
+	 * @throws ServletException     Exception g�n�rique pour le traitement de la servlet.
+	 * @throws IOException          Exception g�n�rique d'entr�e / sortie.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		String urlEnd = request.getRequestURI().substring(request.getContextPath().length());
 
+		/**
+		 * Ajouter un événement
+		 */
 		if (urlEnd.equals("/mvc2/add"))
 		{
 			try 
@@ -255,6 +291,9 @@ public class MVC2Servlet extends HttpServlet {
 				response.sendRedirect(getServletContext().getContextPath() + "/mvc2");
 			}
 		}
+		/**
+		 * Editer un événement
+		 */
 		else if (urlEnd.contains("/mvc2/edit"))
 		{
 			try 
@@ -381,6 +420,23 @@ public class MVC2Servlet extends HttpServlet {
 			{
 				e.printStackTrace();
 			}
-		}			
+		}
+		/**
+		 * Rediriger vers l'accueil pour une URL non traitée par l'application
+		 */
+		else
+		{
+			try
+			{
+				EvenementDAO evtDAO = HibernateDAOFactory.getDAOFactory().getEvenementDAO();
+				request.setAttribute("evts", evtDAO.getEvenements());
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+			
+			getServletContext().getRequestDispatcher("/accueil.jsp").forward(request, response);
+		}
 	}
 }
